@@ -1,9 +1,10 @@
 module CampaignMonitorSubscriber
   require 'campaigning'
-  ::CAMPAIGN_MONITOR_API_KEY = YAML::load_file(File.join(RAILS_ROOT, "config/campaign_monitor_subscriber_config.yml"))['api_key']  
+  CM_CONFIG = YAML::load_file(File.join(RAILS_ROOT, "config/campaign_monitor_subscriber_config.yml"))
+  ::CAMPAIGN_MONITOR_API_KEY = CM_CONFIG['api_key']  
 
   def subscribe_me_using(email_field)
-    # return unless RAILS_ENV == 'production'
+    return if CM_CONFIG[RAILS_ENV] == false
 
     after_create do |record|
       begin
