@@ -1,2 +1,4 @@
-campaign_monitor_subscriber.gemspec
+Manifest
+README.rdoc
+Rakefile
 lib/campaign_monitor_subscriber.rb
