@@ -4,7 +4,7 @@ module CampaignMonitorSubscriber
   ::CAMPAIGN_MONITOR_API_KEY = CM_CONFIG['api_key']  
 
   def subscribe_me_using(email_field)
-    return if CM_CONFIG[RAILS_ENV] == false
+    return if CM_CONFIG[::Rails.env] == false
 
     after_create do |record|
       begin
