@@ -1,6 +1,6 @@
 module CampaignMonitorSubscriber
   require 'campaigning'
-  CM_CONFIG = YAML::load_file(File.join(RAILS_ROOT, "config/campaign_monitor_subscriber_config.yml"))
+  CM_CONFIG = YAML::load_file(File.join("config/campaign_monitor_subscriber_config.yml"))
   ::CAMPAIGN_MONITOR_API_KEY = CM_CONFIG['api_key']  
 
   def subscribe_me_using(email_field)
@@ -24,7 +24,7 @@ module CampaignMonitorSubscriber
 
   private
     def cm_list_id
-      YAML::load_file(File.join(RAILS_ROOT, "config/campaign_monitor_subscriber_config.yml"))['list_id']
+      CM_CONFIG['list_id']
     end
 end
 
