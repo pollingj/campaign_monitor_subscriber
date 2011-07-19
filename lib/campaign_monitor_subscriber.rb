@@ -7,8 +7,9 @@ module CampaignMonitorSubscriber
     return if CM_CONFIG[::Rails.env] == false
     after_create do |record|
       begin
-        s = Campaigning::Subscriber.new(record.send(email_field), custom_fields.map{|k,v| {k => record.send(v)}})
-        s.add!(CM_CONFIG['list_id'])
+        custom_fields = custom_fields.map{|k,v| {k => record.send(v)}}
+        s = Campaigning::Subscriber.new(record.send(email_field), custom_fields["name"], custom_fields)
+        s.add!(CM_CONFIG['list_id'], custom_fields)
       rescue RuntimeError
       end
     end
