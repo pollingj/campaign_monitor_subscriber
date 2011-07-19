@@ -9,18 +9,33 @@ Automatically push/delete a model's email address and custom-fields to a Campaig
 
 == SYNOPSIS:
 
-Specify the model's email address field name. You can also pass additional custom fields:
+Specify the model's email address field name. You can also pass additional custom fields and list_name:
 
   Class User < ActiveRecord::Base
-    subscribe_me_using :email, {"name" => "full_name", "UserStatus" => "get_status"}
+    subscribe_me_using :email, {"name" => "full_name", "UserStatus" => "get_status"}, "users"
   end
 
-This will call `full_name` and `get_status` methods on record which was created using `send`.
+This will call `full_name` and `get_status` methods (using `send`) on record which was created.
 
 Set the list id & api key in config/campaign_monitor_subscriber_config.yml:
   list_id: 12oeu0089oe8gf9794oe498587o5
   api_key: 23rbmoe351sd123d12134hbi1234
 	development: false # disable in development
+
+If you have only one list for all models, you can leave name "list_id" in config. Otherwise you should create something like:
+  list_users: 12oeu0089oe8gf9794oe498587o5
+  list_newsletter: oEZoeu0089oe8gf9794oe498587o5
+  api_key: 23rbmoe351sd123d12134hbi1234
+
+Models for these two lists look like this:
+
+  Class User < ActiveRecord::Base
+    subscribe_me_using :email, {"name" => "full_name"}, "users"
+  end
+
+  Class NewsletterUser < ActiveRecord::Base
+    subscribe_me_using :email, {"name" => "full_name"}, "newsletter"
+  end
 
 Thats it!
 
