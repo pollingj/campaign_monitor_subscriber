@@ -9,23 +9,18 @@ module CampaignMonitorSubscriber
     after_create do |record|
       begin
         s = Campaigning::Subscriber.new(record.send(email_field))
-        s.add!(cm_list_id)
+        s.add!(CM_CONFIG['list_id'])
       rescue RuntimeError
       end
     end
 
     after_destroy do |record|
       begin
-        Campaigning::Subscriber.unsubscribe!(record.send(email_field), cm_list_id)
+        Campaigning::Subscriber.unsubscribe!(record.send(email_field), CM_CONFIG['list_id'])
       rescue RuntimeError
       end
     end
   end
-
-  private
-    def cm_list_id
-      CM_CONFIG['list_id']
-    end
 end
 
 ActiveRecord::Base.extend(CampaignMonitorSubscriber)
