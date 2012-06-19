@@ -1,27 +1,4 @@
-module CampaignMonitorSubscriber
-  require 'campaigning'
-  CM_CONFIG = YAML::load_file(File.join("config/campaign_monitor_subscriber_config.yml"))
-  ::CAMPAIGN_MONITOR_API_KEY = CM_CONFIG['api_key']  
+require 'campaign_monitor_subscriber/basic_configuration'
+require 'campaign_monitor_subscriber/macro'
 
-  def subscribe_me_using(email_field, custom_fields={}, list_name="id")
-    return if CM_CONFIG[::Rails.env] == false or %w(cucumber test).include? ::Rails.env
-
-    after_create do |record|
-      begin
-        custom_fields = custom_fields.inject({}) { |h, (k, v)| h[k] = record.send(v); h }
-        s = Campaigning::Subscriber.new(record.send(email_field), custom_fields["name"])
-        s.add!(CM_CONFIG["list_#{list_name}"], custom_fields)
-      rescue RuntimeError
-      end
-    end
-
-    after_destroy do |record|
-      begin
-        Campaigning::Subscriber.unsubscribe!(record.send(email_field), CM_CONFIG["list_#{list_name}"])
-      rescue RuntimeError
-      end
-    end
-  end
-end
-
-ActiveRecord::Base.extend(CampaignMonitorSubscriber)
+ActiveRecord::Base.extend(CampaignMonitorSubscriber::Macro)
