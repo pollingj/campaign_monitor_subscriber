@@ -1,6 +1,8 @@
 == DESCRIPTION:
 
-Automatically push/delete a model's email address and custom-fields to a Campaign Monitor mailing when the model is created or destroyed.
+Automatically push/delete a model's email address and custom-fields to a Campaign Monitor mailing lists when the model is created or destroyed.
+
+NOTE: Version 1.0.0 introduces several significant syntax changes that will cause issues if your application is not updated. See below for details.
 
 == FEATURES:
 
@@ -9,52 +11,61 @@ Automatically push/delete a model's email address and custom-fields to a Campaig
 
 == SYNOPSIS:
 
-Specify the model's email address field name. You can also pass additional custom fields and list_name:
+Specify the model's email address field name. You can also pass additional custom fields:
 
   Class User < ActiveRecord::Base
-    subscribe_me_using :email, {"name" => "full_name", "UserStatus" => "get_status"}, "users"
+    subscribe_me_using :email, :name => :full_name, :UserStatus => :get_status
   end
 
-This will call `full_name` and `get_status` methods (using `send`) on record which was created.
+This will submit the users `full_name` as `name` etc.
 
-Set the list id & api key in config/campaign_monitor_subscriber_config.yml:
-  list_id: 12oeu0089oe8gf9794oe498587o5
+Set the list id & API key in `config/campaign_monitor_subscriber.yml`:
+  production:
+    list_id: 12oeu0089oe8gf9794oe498587o5
+    api_key: 23rbmoe351sd123d12134hbi1234
+
+Campaign Monitor Subscrber will not activate for environments not specified in `config/campaign_monitor_subscriber.yaml`.
+
+You can use different lists across your application by specifying the list_id prefixed by the list name:
+  users_list_id: 12oeu0089oe8gf9794oe498587o5
+  staff_list_id: oEZoeu0089oe8gf7oe123oeu234o
   api_key: 23rbmoe351sd123d12134hbi1234
-	development: false # disable in development
 
-If you have only one list for all models, you can leave name "list_id" in config. Otherwise you should create something like:
-  list_users: 12oeu0089oe8gf9794oe498587o5
-  list_newsletter: oEZoeu0089oe8gf9794oe498587o5
-  api_key: 23rbmoe351sd123d12134hbi1234
-
-Models for these two lists look like this:
+Then be sure to specify the list's name in the model as follows:
 
   Class User < ActiveRecord::Base
-    subscribe_me_using :email, {"name" => "full_name"}, "users"
+    subscribe_me_using :email, :name => :full_name, :list => :users
   end
 
-  Class NewsletterUser < ActiveRecord::Base
-    subscribe_me_using :email, {"name" => "full_name"}, "newsletter"
+  Class Staff < ActiveRecord::Base
+    subscribe_me_using :email, :name => :full_name, :list => staff
   end
 
 Thats it!
 
 == REQUIREMENTS:
 
-* campaigning gem
+* creatsend gem
 
 == INSTALL:
 
 Just add this to your Gemfile:
-  gem 'campaigning', '0.15.0' 
-  gem 'campaign_monitor_subscriber', :git => "git@github.com:anwajler/campaign_monitor_subscriber.git", :branch => "rails3"
+  gem 'campaign_monitor_subscriber'
 
+== VERSIONS:
+
+Be aware of the following changes as of version 1.0.0:
+  - Developed and tested for Rails 3 only
+  - Slight change in arguments syntax for `subscribe_me_using` (no more hash parenthesis required)
+  - New configuration file format
+
+For Rails 2 use version 0.6.3
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2010 FIX
+Copyright (c) 2010
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
