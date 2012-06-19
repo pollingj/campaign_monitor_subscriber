@@ -2,3 +2,8 @@ Manifest
 README.rdoc
 Rakefile
 lib/campaign_monitor_subscriber.rb
+lib/campaign_monitor_subscriber/basic_configuration.rb
+lib/campaign_monitor_subscriber/configuration.rb
+lib/campaign_monitor_subscriber/macro.rb
+lib/campaign_monitor_subscriber/subscription_hooks.rb
+lib/campaign_monitor_subscriber/instance_methods.rb
