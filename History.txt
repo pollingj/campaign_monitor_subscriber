@@ -1,0 +1,4 @@
+1.0.1
+  * Stop tracking Gemfile.lock
+  * Add rspec as dev dependency
+    - thanks to Matthew Conway
