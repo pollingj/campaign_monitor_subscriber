@@ -1,3 +1,8 @@
+1.0.2
+  * Use the logger provided by ActiveSupport::Concern
+  * Don't log email addresses by default
+    - thanks to Glenn Gillen
+
 1.0.1
   * Stop tracking Gemfile.lock
   * Add rspec as dev dependency
