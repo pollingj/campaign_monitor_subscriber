@@ -10,7 +10,7 @@ module CampaignMonitorSubscriber
       @@log = Logger.new('log/cm_subscriber.log')
 
       after_create do |record|
-        @@log.info "\n* Adding '#{record.cms_email}' to CM"
+        @@log.debug "\n* Adding '#{record.cms_email}' to CM"
 
         begin
           CreateSend::Subscriber.add(
@@ -27,7 +27,7 @@ module CampaignMonitorSubscriber
 
 
       after_destroy do |record|
-        @@log.info "\n* Removing '#{record.cms_email}' from CM"
+        @@log.debug "\n* Removing '#{record.cms_email}' from CM"
 
         begin
           s = CreateSend::Subscriber.new(
