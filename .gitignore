@@ -5,3 +5,5 @@ pkg/*
 test/*
 bin/*
 *.gemspec
+/vendor
+.bundle/
