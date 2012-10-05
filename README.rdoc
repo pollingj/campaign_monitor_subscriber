@@ -25,6 +25,7 @@ Set the list id & API key in `config/campaign_monitor_subscriber.yml`:
     api_key: 23rbmoe351sd123d12134hbi1234
 
 Campaign Monitor Subscrber will not activate for environments not specified in `config/campaign_monitor_subscriber.yaml`.
+The config file will recognise and interpret ERB.
 
 You can use different lists across your application by specifying the list_id prefixed by the list name:
   production:
