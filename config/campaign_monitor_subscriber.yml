@@ -4,6 +4,6 @@ development:
   monkey_list_id: monkey_list_id
 
 production:
-  api_key: production_api_key
+  api_key: <%= 'production_api' + '_key' %>
   list_id: generic_list_id
   monkey_list_id: monkey_list_id
