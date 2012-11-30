@@ -17,7 +17,7 @@ module CampaignMonitorSubscriber
             cms_config.list_id,
             record.cms_email,
             record.cms_name,
-            [record.cms_custom_fields],
+            record.cms_custom_fields,
             true
           )
         rescue CreateSend::CreateSendError => err

@@ -3,7 +3,11 @@
 module CampaignMonitorSubscriber 
   module InstanceMethods
     def cms_custom_fields
-      cms_config.custom_fields.inject({}) { |h, (k, v)| h[k] = send(v); h }
+      fields = Array.new
+      cms_config.custom_fields.each do |k, v|
+        fields << { :Key => k, :Value => send(v) }
+      end
+      fields
     end
 
     def cms_email
