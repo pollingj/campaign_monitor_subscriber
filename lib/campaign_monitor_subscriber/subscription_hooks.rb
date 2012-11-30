@@ -49,6 +49,7 @@ module CampaignMonitorSubscriber
         rescue CreateSend::CreateSendError => err
           @@log.info err.message
         end
+      end
     end
   end
 end
